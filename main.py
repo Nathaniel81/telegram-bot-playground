@@ -2,7 +2,7 @@ import os
 from typing import Final
 
 from dotenv import load_dotenv
-from telegram import Update
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Application, CallbackContext, CommandHandler,
                           ContextTypes, MessageHandler, Updater, filters)
 
@@ -12,7 +12,16 @@ TOKEN: Final[str] = os.getenv('TOKEN')
 BOT_USERNAME: Final[str] = os.getenv('BOT_USERNAME')
 
 async def start_command(update: Update, context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('Greetings, Earthling! I am Lemmon, your friendly neighborhood bot! 🍋')
+    buttons = [
+        [KeyboardButton('Help'), KeyboardButton('Custom Command')],
+        [KeyboardButton('Option 3'), KeyboardButton('Option 4')]
+    ]
+    
+    keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+    await update.message.reply_text(
+        'Greetings, Earthling! I am Lemmon, your friendly neighborhood bot! 🍋',
+        reply_markup=keyboard
+    )
 
 async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Need help? Just type something, and I\'ll do my best to sound like I know what I\'m talking about! 🤖')
